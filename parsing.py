@@ -27,19 +27,27 @@ class ParserUDpipe:
         conllu = self.parsing()
         sentances = re.findall('# text = (.+)\n', conllu)
         conllu = re.sub('# .+?\n', '', conllu)
-        rows = conllu.split('\n')
-        string = 'Id\tForm\tLemma\tUPosTag\tXPosTag\tFeats\tHead\tDepRel\tDeps\tMisc\n'
-        string += "\n".join(rows)
-        string = StringIO(string)
-        df = pd.read_csv(string, sep="\t")
-        try:
-            df = df[~df.Id.str.contains("-")]
-        except:
-            pass
+        sent_lst = re.findall('(1\t.+?)\n\n', conllu, re.DOTALL)
+        df_all = pd.DataFrame(data={'Id': [], 'Form': [], 'Lemma': [], 'UPosTag': [],
+                                    'XPosTag': [], 'Feats': [], 'Head': [], 'DepRel': [], 
+                                    'Deps': [], 'Misc': []})
+        dfs = []
+        for each in sent_lst:
+            rows = each.split('\n')
+            string = 'Id\tForm\tLemma\tUPosTag\tXPosTag\tFeats\tHead\tDepRel\tDeps\tMisc\n'
+            string += "\n".join(rows)
+            string = StringIO(string)
+            df = pd.read_csv(string, sep="\t")
+            try:
+                df = df[~df.Id.str.contains("-")]
+            except:
+                pass
+            df_all = pd.concat([df_all, df], ignore_index=True)
+            dfs.append(df)
         if sentences:
-            return sentances
+            return sentances, dfs
         else:
-            return df.reset_index()
+            return df_all
     
     def get_sentances(self):
         sentances = self.conllu2df(sentences=True)
