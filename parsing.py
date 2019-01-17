@@ -25,12 +25,9 @@ class ParserUDpipe:
     
     def conllu2df(self, sentences=False):
         conllu = self.parsing()
-        sentances = re.findall('# text = (.+)\n', conllu)
+        sents = re.findall('# text = (.+)\n', conllu)
         conllu = re.sub('# .+?\n', '', conllu)
         sent_lst = re.findall('(1\t.+?)\n\n', conllu, re.DOTALL)
-        df_all = pd.DataFrame(data={'Id': [], 'Form': [], 'Lemma': [], 'UPosTag': [],
-                                    'XPosTag': [], 'Feats': [], 'Head': [], 'DepRel': [], 
-                                    'Deps': [], 'Misc': []})
         dfs = []
         for each in sent_lst:
             rows = each.split('\n')
@@ -42,11 +39,11 @@ class ParserUDpipe:
                 df = df[~df.Id.str.contains("-")]
             except:
                 pass
-            df_all = pd.concat([df_all, df], ignore_index=True)
             dfs.append(df)
         if sentences:
-            return sentances, dfs
+            return sents, dfs
         else:
+            df_all = pd.concat(dfs, ignore_index=True)
             return df_all
     
     def get_sentances(self):
