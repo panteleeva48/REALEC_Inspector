@@ -1,0 +1,243 @@
+# newdoc
+# newpar
+# sent_id = 1
+# text = The graph depics the level of unemployment over two years (2014 and 2015).
+1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
+2	graph	graph	NOUN	S	Number=Sing	3	nsubj	_	_
+3	depics	depic	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	the	the	DET	RD	Definite=Def|PronType=Art	5	det	_	_
+5	level	level	NOUN	S	Number=Sing	3	obj	_	_
+6	of	of	ADP	E	_	7	case	_	_
+7	unemployment	unemployment	NOUN	S	Number=Sing	5	nmod	_	_
+8	over	over	ADP	E	_	10	case	_	_
+9	two	two	NUM	N	NumType=Card	10	nummod	_	_
+10	years	year	NOUN	S	Number=Plur	3	obl	_	_
+11	(	(	PUNCT	FB	_	12	punct	_	SpaceAfter=No
+12	2014	2014	NUM	N	NumType=Card	10	appos	_	_
+13	and	and	CCONJ	CC	_	14	cc	_	_
+14	2015	2015	NUM	N	NumType=Card	12	conj	_	SpaceAfter=No
+15	)	)	PUNCT	FB	_	12	punct	_	SpaceAfter=No
+16	.	.	PUNCT	FS	_	3	punct	_	_
+
+# sent_id = 2
+# text = There are few regions in the diagram:
+1	There	there	ADV	B	_	2	expl	_	_
+2	are	be	VERB	V	Mood=Ind|Number=Plur|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	few	few	ADJ	A	Degree=Pos	4	amod	_	_
+4	regions	region	NOUN	S	Number=Plur	2	nsubj	_	_
+5	in	in	ADP	E	_	7	case	_	_
+6	the	the	DET	RD	Definite=Def|PronType=Art	7	det	_	_
+7	diagram	diagram	NOUN	S	Number=Sing	2	obl	_	SpaceAfter=No
+8	:	:	PUNCT	FC	_	2	punct	_	_
+
+# sent_id = 3
+# text = North Africa, Middle East, European Union, Latin America and South Asia.
+1	North	north	ADJ	A	Degree=Pos	2	amod	_	_
+2	Africa	Africa	PROPN	SP	_	0	root	_	SpaceAfter=No
+3	,	,	PUNCT	FF	_	2	punct	_	_
+4	Middle	middle	PROPN	SP	_	2	appos	_	_
+5	East	East	PROPN	SP	_	4	flat	_	SpaceAfter=No
+6	,	,	PUNCT	FF	_	4	punct	_	_
+7	European	European	PROPN	SP	_	4	flat	_	_
+8	Union	Union	PROPN	SP	_	4	flat	_	SpaceAfter=No
+9	,	,	PUNCT	FF	_	10	punct	_	_
+10	Latin	Latin	PROPN	SP	_	4	conj	_	_
+11	America	America	PROPN	SP	_	10	flat	_	_
+12	and	and	CCONJ	CC	_	13	cc	_	_
+13	South	South	PROPN	SP	_	4	conj	_	_
+14	Asia	Asia	PROPN	SP	_	13	flat	_	SpaceAfter=No
+15	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = 4
+# text = Trend which is called “Worldwide”, shows the average unemployment rate over the world.
+1	Trend	Trend	NOUN	S	Number=Sing	9	nsubj	_	_
+2	which	which	PRON	PR	PronType=Rel	4	nsubj:pass	_	_
+3	is	be	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	aux:pass	_	_
+4	called	call	VERB	V	Tense=Past|VerbForm=Part	1	acl:relcl	_	_
+5	“	“	PUNCT	FF	_	6	punct	_	SpaceAfter=No
+6	Worldwide	worldwide	PROPN	SP	_	4	xcomp	_	SpaceAfter=No
+7	”	”	PUNCT	FF	_	1	punct	_	SpaceAfter=No
+8	,	,	PUNCT	FF	_	1	punct	_	_
+9	shows	show	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+10	the	the	DET	RD	Definite=Def|PronType=Art	13	det	_	_
+11	average	average	ADJ	A	Degree=Pos	13	amod	_	_
+12	unemployment	unemployment	NOUN	S	Number=Sing	13	nmod	_	_
+13	rate	rate	NOUN	S	Number=Sing	9	obj	_	_
+14	over	over	ADP	E	_	16	case	_	_
+15	the	the	DET	RD	Definite=Def|PronType=Art	16	det	_	_
+16	world	world	NOUN	S	Number=Sing	9	obl	_	SpaceAfter=No
+17	.	.	PUNCT	FS	_	9	punct	_	SpacesAfter=\n
+
+# sent_id = 5
+# text = The rate of unemployment stays steady in such world regions as North Africa and South Asia.
+1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
+2	rate	rate	NOUN	S	Number=Sing	0	root	_	_
+3	of	of	ADP	E	_	5	case	_	_
+4	unemployment	unemployment	NOUN	S	Number=Sing	5	nmod	_	_
+5	stays	stay	NOUN	S	Number=Plur	2	nmod	_	_
+6	steady	steady	ADV	B	_	5	advmod	_	_
+7	in	in	ADP	E	_	10	case	_	_
+8	such	such	DET	DD	PronType=Dem	10	det	_	_
+9	world	world	NOUN	S	Number=Sing	10	nmod	_	_
+10	regions	region	NOUN	S	Number=Plur	2	nmod	_	_
+11	as	as	ADP	E	_	12	case	_	_
+12	North	North	PROPN	SP	_	2	nmod	_	_
+13	Africa	Africa	PROPN	SP	_	12	flat	_	_
+14	and	and	CCONJ	CC	_	15	cc	_	_
+15	South	South	PROPN	SP	_	12	conj	_	_
+16	Asia	Asia	PROPN	SP	_	15	flat	_	SpaceAfter=No
+17	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = 6
+# text = Worldwide rate is also stable.
+1	Worldwide	worldwide	ADJ	A	Degree=Pos	2	amod	_	_
+2	rate	rate	NOUN	S	Number=Sing	5	nsubj	_	_
+3	is	be	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	_
+4	also	also	ADV	B	_	5	advmod	_	_
+5	stable	stable	ADJ	A	Degree=Pos	0	root	_	SpaceAfter=No
+6	.	.	PUNCT	FS	_	5	punct	_	_
+
+# sent_id = 7
+# text = Middle East shows downward trend – unemployment rate declined for a year.
+1	Middle	middle	ADJ	A	Degree=Pos	2	amod	_	_
+2	East	East	PROPN	SP	_	3	nsubj	_	_
+3	shows	show	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	downward	downward	ADV	B	_	5	advmod	_	_
+5	trend	trend	NOUN	S	Number=Sing	8	nmod	_	_
+6	–	–	PUNCT	FF	_	5	punct	_	_
+7	unemployment	unemployment	NOUN	S	Number=Sing	8	nmod	_	_
+8	rate	rate	NOUN	S	Number=Sing	3	obj	_	_
+9	declined	decline	VERB	V	Tense=Past|VerbForm=Part	8	acl	_	_
+10	for	for	ADP	E	_	12	case	_	_
+11	a	a	DET	RI	Definite=Ind|Number=Sing|PronType=Art	12	det	_	_
+12	year	year	NOUN	S	Number=Sing	9	obl	_	SpaceAfter=No
+13	.	.	PUNCT	FS	_	3	punct	_	_
+
+# sent_id = 8
+# text = we can suppose that increased level in European Union can correlate with amount of migrants from African countries:
+1	we	we	PRON	PE	Number=Plur|Person=1|PronType=Prs	3	nsubj	_	_
+2	can	can	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	3	aux	_	_
+3	suppose	suppose	VERB	V	VerbForm=Inf	0	root	_	_
+4	that	that	SCONJ	CS	_	11	mark	_	_
+5	increased	increased	ADJ	A	Degree=Pos	6	amod	_	_
+6	level	level	NOUN	S	Number=Sing	11	nsubj	_	_
+7	in	in	ADP	E	_	8	case	_	_
+8	European	European	PROPN	SP	_	6	nmod	_	_
+9	Union	Union	PROPN	SP	_	8	flat	_	_
+10	can	can	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	11	aux	_	_
+11	correlate	correlate	VERB	V	VerbForm=Inf	3	ccomp	_	_
+12	with	with	ADP	E	_	13	case	_	_
+13	amount	amount	NOUN	S	Number=Sing	11	obl	_	_
+14	of	of	ADP	E	_	15	case	_	_
+15	migrants	migrant	NOUN	S	Number=Plur	13	nmod	_	_
+16	from	from	ADP	E	_	18	case	_	_
+17	African	African	ADJ	A	Degree=Pos	18	amod	_	_
+18	countries	country	NOUN	S	Number=Plur	15	nmod	_	SpaceAfter=No
+19	:	:	PUNCT	FC	_	3	punct	_	_
+
+# sent_id = 9
+# text = the more migrants Europe takes, the higher level of unemployment becomes.
+1	the	the	DET	RD	Definite=Def|PronType=Art	3	det	_	_
+2	more	more	ADJ	A	Degree=Cmp	3	amod	_	_
+3	migrants	migrant	NOUN	S	Number=Plur	5	nsubj	_	_
+4	Europe	Europe	PROPN	SP	_	3	nmod	_	_
+5	takes	take	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	SpaceAfter=No
+6	,	,	PUNCT	FF	_	5	punct	_	_
+7	the	the	DET	RD	Definite=Def|PronType=Art	9	det	_	_
+8	higher	higher	ADJ	A	Degree=Cmp	9	amod	_	_
+9	level	level	NOUN	S	Number=Sing	5	obj	_	_
+10	of	of	ADP	E	_	12	case	_	_
+11	unemployment	unemployment	NOUN	S	Number=Sing	12	nmod	_	_
+12	becomes	become	NOUN	S	Number=Plur	9	nmod	_	SpaceAfter=No
+13	.	.	PUNCT	FS	_	5	punct	_	_
+
+# sent_id = 10
+# text = Statistics over the world didn’t change – the rate stayed the same.
+1	Statistics	statistic	NOUN	S	Number=Plur	0	root	_	_
+2	over	over	ADP	E	_	6	case	_	_
+3	the	the	DET	RD	Definite=Def|PronType=Art	6	det	_	_
+4	world	world	NOUN	S	Number=Sing	6	nmod	_	_
+5	didn’t	didn’t	ADJ	A	Degree=Pos	6	amod	_	_
+6	change	change	NOUN	S	Number=Sing	1	nmod	_	_
+7	–	–	PUNCT	FB	_	1	punct	_	_
+8	the	the	DET	RD	Definite=Def|PronType=Art	9	det	_	_
+9	rate	rate	NOUN	S	Number=Sing	10	nsubj	_	_
+10	stayed	stay	VERB	V	Mood=Ind|Person=3|Tense=Past|VerbForm=Fin	1	acl:relcl	_	_
+11	the	the	DET	RD	Definite=Def|PronType=Art	12	det	_	_
+12	same	same	NOUN	S	Number=Sing	10	obj	_	SpaceAfter=No
+13	.	.	PUNCT	FS	_	1	punct	_	SpacesAfter=\n
+
+# sent_id = 11
+# text = Generally, the highest rate of unemployment relates to North Africa.
+1	Generally	generally	ADV	B	_	8	advmod	_	SpaceAfter=No
+2	,	,	PUNCT	FF	_	1	punct	_	_
+3	the	the	DET	RD	Definite=Def|PronType=Art	5	det	_	_
+4	highest	highest	ADJ	A	Degree=Sup	5	amod	_	_
+5	rate	rate	NOUN	S	Number=Sing	8	nsubj	_	_
+6	of	of	ADP	E	_	7	case	_	_
+7	unemployment	unemployment	NOUN	S	Number=Sing	5	nmod	_	_
+8	relates	relate	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+9	to	to	ADP	E	_	10	case	_	_
+10	North	North	PROPN	SP	_	8	obl	_	_
+11	Africa	Africa	PROPN	SP	_	10	flat	_	SpaceAfter=No
+12	.	.	PUNCT	FS	_	8	punct	_	_
+
+# sent_id = 12
+# text = It is the poorest region with low economics and GDP, so there are not workplaces for population and they need to run from country.
+1	It	it	PRON	PE	Number=Sing|Person=3|PronType=Prs	5	nsubj	_	_
+2	is	be	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	_
+3	the	the	DET	RD	Definite=Def|PronType=Art	5	det	_	_
+4	poorest	poorest	ADJ	A	Degree=Pos	5	amod	_	_
+5	region	region	NOUN	S	Number=Sing	0	root	_	_
+6	with	with	ADP	E	_	8	case	_	_
+7	low	low	ADJ	A	Degree=Pos	8	amod	_	_
+8	economics	economic	NOUN	S	Number=Plur	5	nmod	_	_
+9	and	and	CCONJ	CC	_	10	cc	_	_
+10	GDP	GDP	PROPN	SP	_	8	conj	_	SpaceAfter=No
+11	,	,	PUNCT	FF	_	5	punct	_	_
+12	so	so	ADV	B	_	16	advmod	_	_
+13	there	there	ADV	B	_	16	expl	_	_
+14	are	be	AUX	V	Mood=Ind|Number=Plur|Tense=Pres|VerbForm=Fin	16	cop	_	_
+15	not	not	PART	PART	Polarity=Neg	16	advmod	_	_
+16	workplaces	workplace	NOUN	S	Number=Plur	5	nmod	_	_
+17	for	for	ADP	E	_	18	case	_	_
+18	population	population	NOUN	S	Number=Sing	16	nmod	_	_
+19	and	and	CCONJ	CC	_	21	cc	_	_
+20	they	they	PRON	PE	Number=Plur|Person=3|PronType=Prs	21	nsubj	_	_
+21	need	need	VERB	V	Mood=Ind|Number=Plur|Tense=Pres|VerbForm=Fin	16	conj	_	_
+22	to	to	PART	PART	_	23	mark	_	_
+23	run	run	VERB	V	VerbForm=Inf	21	xcomp	_	_
+24	from	from	ADP	E	_	25	case	_	_
+25	country	country	NOUN	S	Number=Sing	23	obl	_	SpaceAfter=No
+26	.	.	PUNCT	FS	_	5	punct	_	_
+
+# sent_id = 13
+# text = The best stable result is shown by South Asia with growing factories, developing infrastructure, so it give across to a big amount of workplaces.
+1	The	the	DET	RD	Definite=Def|PronType=Art	4	det	_	_
+2	best	best	ADV	B	_	3	advmod	_	_
+3	stable	stable	ADJ	A	Degree=Pos	4	amod	_	_
+4	result	result	NOUN	S	Number=Sing	6	nsubj:pass	_	_
+5	is	be	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	aux:pass	_	_
+6	shown	show	VERB	V	Tense=Past|VerbForm=Part	0	root	_	_
+7	by	by	ADP	E	_	8	case	_	_
+8	South	South	PROPN	SP	_	6	obl	_	_
+9	Asia	Asia	PROPN	SP	_	8	flat	_	_
+10	with	with	ADP	E	_	12	case	_	_
+11	growing	growing	VERB	V	Number=Sing|Tense=Pres|VerbForm=Part	12	acl	_	_
+12	factories	factory	NOUN	S	Number=Plur	8	nmod	_	SpaceAfter=No
+13	,	,	PUNCT	FF	_	6	punct	_	_
+14	developing	develop	VERB	V	Number=Sing|Tense=Pres|VerbForm=Part	15	acl	_	_
+15	infrastructure	infrastructure	NOUN	S	Number=Sing	6	obj	_	SpaceAfter=No
+16	,	,	PUNCT	FF	_	15	punct	_	_
+17	so	so	ADV	B	_	19	advmod	_	_
+18	it	it	PRON	PE	Number=Sing|Person=3|PronType=Prs	19	nsubj	_	_
+19	give	give	VERB	V	VerbForm=Inf	15	acl	_	_
+20	across	across	ADV	B	_	19	advmod	_	_
+21	to	to	ADP	E	_	24	case	_	_
+22	a	a	DET	RI	Definite=Ind|Number=Sing|PronType=Art	24	det	_	_
+23	big	big	ADJ	A	Degree=Pos	24	amod	_	_
+24	amount	amount	NOUN	S	Number=Sing	19	obl	_	_
+25	of	of	ADP	E	_	26	case	_	_
+26	workplaces	workplace	NOUN	S	Number=Plur	24	nmod	_	SpaceAfter=No
+27	.	.	PUNCT	FS	_	6	punct	_	SpacesAfter=\n
+
