@@ -1,8 +1,11 @@
 import collections
-from config import FIVE_T_FREQ_COCA, FREQ_VERBS_COCA_FROM_FIVE_T, UWL, LINKINGS, FUNC_NGRAMS
-from operations import safe_divide, division, corrected_division, root_division, squared_division, log_division, uber
 import random
 import re
+import numpy as np
+import copy
+from statistics import mean
+from config import FIVE_T_FREQ_COCA, FREQ_VERBS_COCA_FROM_FIVE_T, UWL, LINKINGS, FUNC_NGRAMS
+from operations import safe_divide, division, corrected_division, root_division, squared_division, log_division, uber
 
 from nltk.stem.porter import PorterStemmer
 porter_stemmer = PorterStemmer()
@@ -33,6 +36,9 @@ class GetFeatures:
         self.parts = []
         self.pasts = []
         self.finite_tokens = []
+        self.sentences = []
+        self.relations = []
+        self.pos_tags = []
 
     def get_info(self, text):
         self.text = text
@@ -54,6 +60,9 @@ class GetFeatures:
         self.parts = parser.parts
         self.pasts = parser.pasts
         self.finite_tokens = parser.finite_tokens
+        self.sentences = parser.sentences
+        self.relations = parser.relations
+        self.pos_tags = parser.pos_tags
 
     def density(self):
         """
@@ -330,9 +339,133 @@ class GetFeatures:
             num_all += num
         return num_all
 
+    # todo nouns
+
     def num_func_ngrams(self):
         """
         number of linking phrases (Swales & Feak 2009)
         """
         num_links_d = self.num_dict_2_levels(FUNC_NGRAMS, '4grams_')
         return num_links_d
+
+    def order_head(self, sentence):
+        ids = []
+        heads = []
+        for i, token in enumerate(sentence, start=1):
+            heads.append(token.get('head'))
+            ids.append(i)
+        # todo: maybe simplify
+        return (list(zip(ids, heads)))
+
+    def find_root(self, order_head_lst):
+        for every_order_head in order_head_lst:
+            if every_order_head[1] == 0:
+                root = every_order_head
+        return root
+
+    def root_children(self, sentence):
+        order_head_lst = self.order_head(sentence)
+        root = self.find_root(order_head_lst)
+        chains = []
+        for every_order_head in order_head_lst:
+            if every_order_head[1] == root[0]:
+                chains.append([root[0], every_order_head[0]])
+        return chains, order_head_lst
+
+    def chains_heads(self, chains, order_head_lst):
+        length_chains = len(chains)
+        i = 0
+        for chain in chains:
+            if i < length_chains:
+                heads = []
+                if 'stop' not in chain:
+                    for order_head in order_head_lst:
+                        if chain[-1] == order_head[1]:
+                            heads.append(order_head[0])
+                    if heads == [] and 'stop' not in chain:
+                        chain.append('stop')
+                    else:
+                        ind_head = 0
+                        for head in heads:
+                            new_chain = copy.copy(chain)[:-1]
+                            if ind_head == 0:
+                                chain.append(head)
+                                ind_head += 1
+                            else:
+                                new_chain.append(head)
+                                chains.append(new_chain)
+            i += 1
+        while all(item[-1] == 'stop' for item in chains) is False:
+            self.chains_heads(chains, order_head_lst)
+        return chains
+
+    def count_depth_for_one_sent(self, sentence):
+        chains, order_head_lst = self.root_children(sentence)
+        chains = self.chains_heads(chains, order_head_lst)
+        depths = []
+        for chain in chains:
+            depths.append(len(chain) - 2)
+        return max(depths)
+
+    def count_depths(self):
+        max_depths = []
+        for sentence in self.sentences:
+            max_depths.append(self.count_depth_for_one_sent(sentence))
+        return max_depths
+
+    def av_depth(self):
+        max_depths = self.count_depths()
+        return np.mean(max_depths)
+
+    def max_depth(self):
+        max_depths = self.count_depths()
+        return np.max(max_depths)
+
+    def min_depth(self):
+        max_depths = self.count_depths()
+        return np.min(max_depths)
+
+    def count_dep_sent(self):
+        dict_dep_rel = collections.Counter(self.relations)
+        acl = dict_dep_rel.get('acl', 0)
+        rel_cl = dict_dep_rel.get('acl:relcl', 0)
+        advcl = dict_dep_rel.get('advcl', 0)
+        return acl, rel_cl, advcl
+
+    def count_sent(self):
+        return len(self.sentences)
+
+    def count_tokens(self, punct=True):
+        if punct:
+            return len(self.pos_tags)
+        else:
+            return len([x for x in self.pos_tags if x != 'PUNCT'])
+
+    # todo: Количество клауз, Количество T-юнитов, Количество сложных T-юнитов,
+    #  Количество сочинительных фраз, Количество сложных именных групп, Количество глагольных групп
+    #   Синтаксическая схожесть(части речи, леммы): среднее
+    # NOUN + INF
+
+    def tokens_before_root(self):
+        length = []
+        for sentence in self.sentences:
+            for i, token in enumerate(sentence):
+                rel_type = token.get('deprel')
+                if rel_type == 'root':
+                    break
+            length.append(i)
+        return mean(length)
+
+    def mean_len_sent(self, punct=True):
+        length = []
+        for sentence in self.sentences:
+            i = 0
+            for token in sentence:
+                if punct:
+                    i += 1
+                else:
+                    pos = token.get('upostag')
+                    if pos != 'PUNCT':
+                        i += 1
+            length.append(i)
+        return mean(length)

@@ -23,9 +23,12 @@ def read_file(path):
 
 
 def main(path):
-    text = read_file(path)
+    # text = read_file(path)
+    text = 'I am Ira.'
     text = check_spelling(text)
     gf.get_info(text)
+    d = gf.tokens_before_root()
+    print(d)
 
 
 if __name__ == '__main__':

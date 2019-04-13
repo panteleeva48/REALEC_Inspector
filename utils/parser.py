@@ -24,6 +24,9 @@ class ParserUDpipe:
         self.parts = []
         self.pasts = []
         self.finite_tokens = []
+        self.sentences = []
+        self.relations = []
+        self.pos_tags = []
 
     def text2conllu(self, text, model):
         self.text = text
@@ -50,32 +53,43 @@ class ParserUDpipe:
         self.parts = []
         self.pasts = []
         self.finite_tokens = []
+        self.sentences = []
+        self.relations = []
+        self.pos_tags = []
 
-        sentences = parse(self.conllu)
-        for sentence in sentences:
+        self.sentences = parse(self.conllu)
+        for sentence in self.sentences:
             for token in sentence:
+
                 lemma = token.get('lemma')
                 form = token.get('form')
+                relation = token.get('deprel')
+                pos = token.get('upostag')
+                feats = token.get('feats')
+
+                self.relations.append(relation)
                 self.lemmas.append(lemma)
                 self.tokens.append(form)
-                feats = token.get('feats')
+                self.pos_tags.append(pos)
+
                 # todo: why method get does not work
                 if not feats:
                     feats = {}
-                if token.get('upostag') == 'VERB':
+
+                if pos == 'VERB':
                     self.verb_lemmas.append(lemma)
                     self.verb_tokens.append(form)
                     if feats.get('VerbForm', '') == 'Fin':
                         self.finite_tokens.append(form)
-                if token.get('upostag') == 'NOUN':
+                if pos == 'NOUN':
                     self.noun_lemmas.append(lemma)
-                if token.get('upostag') == 'ADJ':
+                if pos == 'ADJ':
                     self.adj_lemmas.append(lemma)
-                if token.get('upostag') == 'ADV':
+                if pos == 'ADV':
                     self.adv_lemmas.append(lemma)
-                if token.get('upostag') == 'AUX':
+                if pos == 'AUX':
                     self.aux_forms.append(form)
-                if token.get('upostag') in OPEN_CLASS:
+                if pos in OPEN_CLASS:
                     self.open_class_lemmas.append(lemma)
                 if feats.get('VerbForm', '') == 'Inf':
                     self.infinitive_tokens.append(form)
