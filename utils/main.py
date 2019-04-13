@@ -26,7 +26,6 @@ def main(path):
     text = read_file(path)
     text = check_spelling(text)
     gf.get_info(text)
-    print('good')
 
 
 if __name__ == '__main__':
