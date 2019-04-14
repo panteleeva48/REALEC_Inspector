@@ -4,8 +4,8 @@ import re
 import numpy as np
 import copy
 from statistics import mean
-from config import FIVE_T_FREQ_COCA, FREQ_VERBS_COCA_FROM_FIVE_T, UWL, LINKINGS, FUNC_NGRAMS
-from operations import safe_divide, division, corrected_division, root_division, squared_division, log_division, uber
+from config import FIVE_T_FREQ_COCA, FREQ_VERBS_COCA_FROM_FIVE_T, UWL, LINKINGS, FUNC_NGRAMS, SUFFIXES, NGRAMS
+from utils.operations import division, corrected_division, root_division, squared_division, log_division, uber
 
 from nltk.stem.porter import PorterStemmer
 porter_stemmer = PorterStemmer()
@@ -81,7 +81,7 @@ class GetFeatures:
         """
         number of sophisticated verb lemmas/number of verb tokens
         """
-        soph_verbs = set([i for i in verb_lemmas if i not in FREQ_VERBS_COCA_FROM_FIVE_T])
+        soph_verbs = set([i for i in self.verb_lemmas if i not in FREQ_VERBS_COCA_FROM_FIVE_T])
         VSI = division(soph_verbs, self.verb_lemmas)
         VSII = corrected_division(soph_verbs, self.verb_lemmas)
         VSIII = squared_division(soph_verbs, self.verb_lemmas)
@@ -95,9 +95,9 @@ class GetFeatures:
         third - University Word List (Xue & Nation 1989)
         none - list of those that are not in these lists
         """
-        first = [i for i in lemmas if i in FIVE_T_FREQ_COCA[0:1000]]
-        second = [i for i in lemmas if i in FIVE_T_FREQ_COCA[1000:2000]]
-        third = [i for i in lemmas if i in UWL]
+        first = [i for i in self.lemmas if i in FIVE_T_FREQ_COCA[0:1000]]
+        second = [i for i in self.lemmas if i in FIVE_T_FREQ_COCA[1000:2000]]
+        third = [i for i in self.lemmas if i in UWL]
         first_procent = division(first, self.lemmas)
         second_procent = division(second, self.lemmas)
         third_procent = division(third, self.lemmas)
@@ -201,9 +201,9 @@ class GetFeatures:
         """
         number of adjective lemmas/number of lexical tokens
         """
-        adj_lemmas = set(self.get_adj_lemmas())
-        lex_tokens = self.get_lex_lemmas()
-        return self.division(adj_lemmas, lex_tokens)
+        adj_lemmas = set(self.adj_lemmas)
+        lex_tokens = self.open_class_lemmas
+        return division(adj_lemmas, lex_tokens)
 
     def AdvV(self):
         """
@@ -252,10 +252,10 @@ class GetFeatures:
         number of suffixes on n's level/number of suffixes
         """
         suffixes = self.get_suffixes()
-        level3_suffixes = [i for i in suffixes if i in suffixes_levels["level3"]]
-        level4_suffixes = [i for i in suffixes if i in suffixes_levels["level4"]]
-        level5_suffixes = [i for i in suffixes if i in suffixes_levels["level5"]]
-        level6_suffixes = [i for i in suffixes if i in suffixes_levels["level6"]]
+        level3_suffixes = [i for i in suffixes if i in SUFFIXES["level3"]]
+        level4_suffixes = [i for i in suffixes if i in SUFFIXES["level4"]]
+        level5_suffixes = [i for i in suffixes if i in SUFFIXES["level5"]]
+        level6_suffixes = [i for i in suffixes if i in SUFFIXES["level6"]]
         der_suff3 = division(level3_suffixes, suffixes)
         der_suff4 = division(level4_suffixes, suffixes)
         der_suff5 = division(level5_suffixes, suffixes)
@@ -334,8 +334,8 @@ class GetFeatures:
         """
         """
         num_all = 0
-        for ngram in ngrams:
-            num = len(self.subfinder([x.lower() if type(x) == str else x for x in self.get_forms()], ngram))
+        for ngram in NGRAMS:
+            num = len(self.subfinder([x.lower() if type(x) == str else x for x in self.tokens], ngram))
             num_all += num
         return num_all
 
@@ -444,7 +444,7 @@ class GetFeatures:
     # todo: Количество клауз, Количество T-юнитов, Количество сложных T-юнитов,
     #  Количество сочинительных фраз, Количество сложных именных групп, Количество глагольных групп
     #   Синтаксическая схожесть(части речи, леммы): среднее
-    # NOUN + INF
+    #   NOUN + INF
 
     def tokens_before_root(self):
         length = []

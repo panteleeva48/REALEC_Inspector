@@ -23,3 +23,11 @@ with open(PATH_LINKINGS) as data_file:
 PATH_FUNC_NGRAMS = os.path.join(BASE_DIR, 'data', 'lists', 'functional_ngrams.json')
 with open(PATH_FUNC_NGRAMS) as data_file:
     FUNC_NGRAMS = json.load(data_file)
+
+PATH_SUFFIXES = os.path.join(BASE_DIR, 'data', 'lists', 'suffixes.json')
+with open(PATH_SUFFIXES) as data_file:
+    SUFFIXES = json.load(data_file)
+
+PATH_NGRAMS = os.path.join(BASE_DIR, 'data', 'lists', 'ngrams.txt')
+with open(PATH_NGRAMS) as data_file:
+    NGRAMS = [x.split() for x in data_file.read().split('\n')]
