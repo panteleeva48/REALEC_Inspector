@@ -405,7 +405,10 @@ class GetFeatures:
         depths = []
         for chain in chains:
             depths.append(len(chain) - 2)
-        return max(depths)
+        if depths:
+            return max(depths)
+        else:
+            return 0
 
     def count_depths(self):
         max_depths = []

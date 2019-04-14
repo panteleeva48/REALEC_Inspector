@@ -24,8 +24,7 @@ def read_file(path):
     return text
 
 
-def main(path):
-    text = read_file(path)
+def main(text):
     text = check_spelling(text)
     gf.get_info(text)
     result = {}
@@ -53,7 +52,9 @@ def main(path):
     for link in links:
         result[link] = links[link]
     result['num_4grams'] = gf.num_4grams()
-    result['num_func_ngrams'] = gf.num_func_ngrams()
+    func_ngrams = gf.num_func_ngrams()
+    for ngram in func_ngrams:
+        result[ngram] = func_ngrams[ngram]
     result['av_depth'] = gf.av_depth()
     result['max_depth'] = gf.max_depth()
     result['min_depth'] = gf.min_depth()
@@ -67,5 +68,6 @@ def main(path):
 
 if __name__ == '__main__':
     PATH_TXT = os.path.join(BASE_DIR, 'data', 'test.txt')
-    result = main(PATH_TXT)
+    text = read_file(PATH_TXT)
+    result = main(text)
     print(result)

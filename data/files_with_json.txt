@@ -101,7 +101,6 @@
 ./data/exam/exam2017/OBy_194_2
 ./data/exam/exam2017/VSa_15_2
 ./data/exam/exam2017/VSa_76_2
-./data/exam/exam2017/OBy_45_1
 ./data/exam/exam2017/NChe_1_1
 ./data/exam/exam2017/EGe_264_2
 ./data/exam/exam2017/NChe_8_2
@@ -795,7 +794,6 @@
 ./data/exam/exam2017/DOv_20_2
 ./data/exam/exam2017/NChe_1_2
 ./data/exam/exam2017/EGe_264_1
-./data/exam/exam2017/Oby_2_1
 ./data/exam/exam2017/VSa_76_1
 ./data/exam/exam2017/NMya_102_1
 ./data/exam/exam2017/OBy_183_2
@@ -2224,7 +2222,6 @@
 ./data/exam/exam2017_6/NMya_82_1
 ./data/exam/exam2017_6/EGe_262_1
 ./data/exam/exam2017_6/OBy_20_2
-./data/exam/exam2017_6/OBy_25_1
 ./data/exam/exam2017_6/EGe_270_1
 ./data/exam/exam2017_6/NChe_12_1
 ./data/exam/exam2017_6/NChe_2_1
