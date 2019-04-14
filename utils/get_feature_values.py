@@ -10,7 +10,7 @@ from utils.operations import division, corrected_division, root_division, square
 from nltk.stem.porter import PorterStemmer
 porter_stemmer = PorterStemmer()
 
-from parser import ParserUDpipe
+from utils.parser import ParserUDpipe
 parser = ParserUDpipe()
 
 
