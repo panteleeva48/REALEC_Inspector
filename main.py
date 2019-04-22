@@ -1,8 +1,6 @@
 import os
-
 from utils.get_feature_values import GetFeatures
 from config import UDPIPE_MODEL, BASE_DIR
-
 import enchant.checker as spellcheck
 chkr = spellcheck.SpellChecker("en_GB")
 
