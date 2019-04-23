@@ -3,6 +3,7 @@ import random
 import re
 import numpy as np
 import copy
+import math
 from statistics import mean
 from config import FIVE_T_FREQ_COCA, FREQ_VERBS_COCA_FROM_FIVE_T, UWL, LINKINGS, FUNC_NGRAMS, SUFFIXES, NGRAMS
 from utils.operations import division, corrected_division, root_division, squared_division, log_division, uber
@@ -39,6 +40,8 @@ class GetFeatures:
         self.sentences = []
         self.relations = []
         self.pos_tags = []
+        self.finite_forms = []
+        self.finite_deps = []
 
     def get_info(self, text):
         self.text = text
@@ -63,6 +66,8 @@ class GetFeatures:
         self.sentences = parser.sentences
         self.relations = parser.relations
         self.pos_tags = parser.pos_tags
+        self.finite_forms = parser.finite_forms
+        self.finite_deps = parser.finite_deps
 
     def density(self):
         """
@@ -339,8 +344,6 @@ class GetFeatures:
             num_all += num
         return num_all
 
-    # todo nouns
-
     def num_func_ngrams(self):
         """
         number of linking phrases (Swales & Feak 2009)
@@ -354,7 +357,6 @@ class GetFeatures:
         for i, token in enumerate(sentence, start=1):
             heads.append(token.get('head'))
             ids.append(i)
-        # todo: maybe simplify
         return (list(zip(ids, heads)))
 
     def find_root(self, order_head_lst):
@@ -413,7 +415,8 @@ class GetFeatures:
     def count_depths(self):
         max_depths = []
         for sentence in self.sentences:
-            max_depths.append(self.count_depth_for_one_sent(sentence))
+            depth = self.count_depth_for_one_sent(sentence)
+            max_depths.append(depth)
         return max_depths
 
     def av_depth(self):
@@ -444,11 +447,6 @@ class GetFeatures:
         else:
             return len([x for x in self.pos_tags if x != 'PUNCT'])
 
-    # todo: Количество клауз, Количество T-юнитов, Количество сложных T-юнитов,
-    #  Количество сочинительных фраз, Количество сложных именных групп, Количество глагольных групп
-    #   Синтаксическая схожесть(части речи, леммы): среднее
-    #   NOUN + INF
-
     def tokens_before_root(self):
         length = []
         for sentence in self.sentences:
@@ -472,3 +470,35 @@ class GetFeatures:
                         i += 1
             length.append(i)
         return mean(length)
+
+    def count_units(self):
+        num_cl = 0
+        num_tu = 0
+        num_compl_tu = 0
+        for i, sentence in enumerate(self.sentences):
+            print(sentence)
+            num_clauses_one = len(self.finite_forms[i])
+            num_cl += num_clauses_one
+            if num_clauses_one == 1:
+                num_tu += 1
+            else:
+                num_finite_deps_one = len(self.finite_deps[i])
+                num_tu_one = num_clauses_one - num_finite_deps_one
+                num_tu += num_tu_one
+                if num_tu_one != num_clauses_one:
+                    if (num_clauses_one - num_tu_one) != num_tu_one:
+                        num_compl_tu_one = num_clauses_one - num_tu_one
+                        num_compl_tu += num_compl_tu_one
+                    else:
+                        num_compl_tu_one = num_tu_one
+                        num_compl_tu += num_compl_tu_one
+                else:
+                    num_compl_tu_one = 0
+            print(num_tu_one, num_clauses_one, num_compl_tu_one)
+        return num_cl, num_tu, num_compl_tu
+
+    def count_tu(self):
+        pass
+
+    def count_complex_tu(self):
+        pass

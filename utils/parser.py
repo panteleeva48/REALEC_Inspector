@@ -27,6 +27,8 @@ class ParserUDpipe:
         self.sentences = []
         self.relations = []
         self.pos_tags = []
+        self.finite_forms = []
+        self.finite_deps = []
 
     def text2conllu(self, text, model):
         self.text = text
@@ -56,9 +58,14 @@ class ParserUDpipe:
         self.sentences = []
         self.relations = []
         self.pos_tags = []
+        self.finite_forms = []
+        self.finite_forms = []
+        self.finite_deps = []
 
         self.sentences = parse(self.conllu)
         for sentence in self.sentences:
+            finite_forms_one = []
+            finite_deps_one = []
             for token in sentence:
 
                 lemma = token.get('lemma')
@@ -111,3 +118,9 @@ class ParserUDpipe:
                         feats.get('Tense', '') == 'Past' and\
                         feats.get('VerbForm', '') == 'Fin':
                     self.pasts.append(form)
+                if feats.get('VerbForm', '') == 'Fin':
+                    finite_forms_one.append(form)
+                if relation == 'acl:relcl' or relation == 'advcl':
+                    finite_deps_one.append(form)
+            self.finite_forms.append(finite_forms_one)
+            self.finite_deps.append(finite_deps_one)

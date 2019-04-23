@@ -2,6 +2,9 @@ import os
 from utils.model import Model
 import json
 
+import enchant.checker as spellcheck
+chkr = spellcheck.SpellChecker("en_GB")
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 PATH_UDPIPE_MODEL = os.path.join(BASE_DIR, 'models', 'english-partut-ud-2.3-181115.udpipe')
