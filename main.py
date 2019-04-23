@@ -26,8 +26,6 @@ def main(text):
 
 
 if __name__ == '__main__':
-    #PATH_TXT = os.path.join(BASE_DIR, 'data', 'test.txt')
-    PATH_TXT = '/Users/ira/Downloads/TUnit.txt'
+    PATH_TXT = os.path.join(BASE_DIR, 'data', 'test.txt')
     text = read_file(PATH_TXT)
-    result = main(text)
-    print(result)
+    main(text)

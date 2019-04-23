@@ -120,7 +120,7 @@ class ParserUDpipe:
                     self.pasts.append(form)
                 if feats.get('VerbForm', '') == 'Fin':
                     finite_forms_one.append(form)
-                if relation == 'acl:relcl' or relation == 'advcl':
+                if relation == 'acl:relcl' or relation == 'advcl' or lemma in ['if', 'when']:
                     finite_deps_one.append(form)
             self.finite_forms.append(finite_forms_one)
             self.finite_deps.append(finite_deps_one)

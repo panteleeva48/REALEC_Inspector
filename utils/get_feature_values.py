@@ -3,7 +3,6 @@ import random
 import re
 import numpy as np
 import copy
-import math
 from statistics import mean
 from config import FIVE_T_FREQ_COCA, FREQ_VERBS_COCA_FROM_FIVE_T, UWL, LINKINGS, FUNC_NGRAMS, SUFFIXES, NGRAMS
 from utils.operations import division, corrected_division, root_division, squared_division, log_division, uber
@@ -476,29 +475,23 @@ class GetFeatures:
         num_tu = 0
         num_compl_tu = 0
         for i, sentence in enumerate(self.sentences):
-            print(sentence)
             num_clauses_one = len(self.finite_forms[i])
-            num_cl += num_clauses_one
             if num_clauses_one == 1:
-                num_tu += 1
+                num_tu_one = 1
+                num_compl_tu_one = 0
             else:
                 num_finite_deps_one = len(self.finite_deps[i])
                 num_tu_one = num_clauses_one - num_finite_deps_one
-                num_tu += num_tu_one
                 if num_tu_one != num_clauses_one:
                     if (num_clauses_one - num_tu_one) != num_tu_one:
                         num_compl_tu_one = num_clauses_one - num_tu_one
-                        num_compl_tu += num_compl_tu_one
                     else:
                         num_compl_tu_one = num_tu_one
-                        num_compl_tu += num_compl_tu_one
                 else:
                     num_compl_tu_one = 0
-            print(num_tu_one, num_clauses_one, num_compl_tu_one)
+
+            num_cl += num_clauses_one
+            num_compl_tu += num_compl_tu_one
+            num_tu += num_tu_one
+
         return num_cl, num_tu, num_compl_tu
-
-    def count_tu(self):
-        pass
-
-    def count_complex_tu(self):
-        pass
