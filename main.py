@@ -23,12 +23,16 @@ def main(text):
     text = check_spelling(text)
     gf.get_info(text)
     print(text)
-    num_coord = gf.count_coord()
-    print(num_coord)
+    adj_noun = gf.count_adj_noun()
+    print(adj_noun)
+    part_noun = gf.count_part_noun()
+    print(part_noun)
+    inf_noun = gf.count_noun_inf()
+    print(inf_noun)
 
 
 if __name__ == '__main__':
     # PATH_TXT = os.path.join(BASE_DIR, 'data', 'test.txt')
-    PATH_TXT = '/Users/ira/Downloads/REALEC_Inspector/data/coord.txt'
+    PATH_TXT = '/Users/ira/Downloads/REALEC_Inspector/data/noun.txt'
     text = read_file(PATH_TXT)
     main(text)

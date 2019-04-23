@@ -31,6 +31,7 @@ class ParserUDpipe:
         self.finite_deps = []
         self.coords = []
         self.preps = []
+        self.pos_lemma = {}
 
     def text2conllu(self, text, model):
         self.text = text
@@ -65,9 +66,10 @@ class ParserUDpipe:
         self.finite_deps = []
         self.coords = []
         self.preps = []
+        self.poss_lemma = {}
 
         self.sentences = parse(self.conllu)
-        for sentence in self.sentences:
+        for i, sentence in enumerate(self.sentences, start=1):
             finite_forms_one = []
             finite_deps_one = []
             coord_one = []
@@ -79,6 +81,8 @@ class ParserUDpipe:
                 pos = token.get('upostag')
                 feats = token.get('feats')
                 head = token.get('head')
+                self.poss_lemma[i][0].append(pos)
+                self.poss_lemma[i][1].append(lemma)
 
                 self.relations.append(relation)
                 self.lemmas.append(lemma)
@@ -131,6 +135,7 @@ class ParserUDpipe:
                 if relation == 'case':
                     second_rel = sentence[head-1].get('deprel')
                     self.preps.append(second_rel)
+
             self.coords.append(coord_one)
             self.finite_forms.append(finite_forms_one)
             self.finite_deps.append(finite_deps_one)

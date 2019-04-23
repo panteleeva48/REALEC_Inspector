@@ -5,7 +5,8 @@ import numpy as np
 import copy
 from statistics import mean
 from config import FIVE_T_FREQ_COCA, FREQ_VERBS_COCA_FROM_FIVE_T, UWL, LINKINGS, FUNC_NGRAMS, SUFFIXES, NGRAMS
-from utils.operations import division, corrected_division, root_division, squared_division, log_division, uber
+from utils.operations import (division, corrected_division, root_division,
+                              squared_division, log_division, uber, levenshtein)
 
 from nltk.stem.porter import PorterStemmer
 porter_stemmer = PorterStemmer()
@@ -43,6 +44,7 @@ class GetFeatures:
         self.finite_deps = []
         self.coords = []
         self.preps = []
+        self.poss_lemma = {}
 
     def get_info(self, text):
         self.text = text
@@ -71,6 +73,7 @@ class GetFeatures:
         self.finite_deps = parser.finite_deps
         self.coords = parser.coords
         self.preps = parser.preps
+        self.poss_lemma = parser.pos_lemma
 
     def density(self):
         """
@@ -503,7 +506,6 @@ class GetFeatures:
     def count_coord(self):
         num_coord = 0
         for sentence in self.coords:
-            print(sentence)
             for coord in sentence:
                 first = coord[0]
                 second = coord[1]
@@ -519,19 +521,104 @@ class GetFeatures:
         return num_poss, num_prep
 
     def count_adj_noun(self):
-        pass
+        num_adj_noun = 0
+        for sentence in self.sentences:
+            for token in sentence:
+                pos = token.get('upostag')
+                head = token.get('head')
+                pos_head = sentence[head - 1].get('upostag')
+                if pos == 'ADJ' and pos_head == 'NOUN':
+                    num_adj_noun += 1
+        return num_adj_noun
 
     def count_part_noun(self):
-        pass
+        num_part_noun = 0
+        for sentence in self.sentences:
+            for token in sentence:
+                pos = token.get('feats')
+                if not pos:
+                    pos = {}
+                pos = pos.get('VerbForm')
+                head = token.get('head')
+                pos_head = sentence[head - 1].get('upostag')
+                if pos == 'Part' and pos_head == 'NOUN':
+                    num_part_noun += 1
+        return num_part_noun
 
     def count_noun_inf(self):
-        pass
+        num_inf_noun = 0
+        for sentence in self.sentences:
+            for token in sentence:
+                pos = token.get('feats')
+                if not pos:
+                    pos = {}
+                pos = pos.get('VerbForm')
+                head = token.get('head')
+                pos_head = sentence[head - 1].get('upostag')
+                if pos == 'Inf' and pos_head == 'NOUN':
+                    num_inf_noun += 1
+        return num_inf_noun
 
-    def count_gerund_inf_subj(self):
-        pass
+    def simularity(self):
+        d = self.pos_lemma()
+        dd = {}
+        for x in range(1, len(d) + 1):
+            dd[x] = [[], []]
+        i = 1
+        for key in d:
+            for key2 in d:
+                if i != key2:
+                    dd[i][0].append(levenshtein(d[key][0], d[key2][0]))
+                    dd[i][1].append(levenshtein(d[key][1], d[key2][1]))
+            i += 1
+        for every in dd:
+            dd[every][0] = mean(dd[every][0])
+            dd[every][1] = mean(dd[every][1])
+        return dd
 
-    def count_vp(self):
-        pass
+    def simularity2(self):
+        d = self.pos_lemma()
+        dd = {}
+        for x in range(1, len(d) + 1):
+            dd[x] = [[], []]
+        i = 1
+        for key in d:
+            if i + 1 <= len(d):
+                dd[i][0].append(levenshtein(d[key][0], d[key + 1][0]))
+                dd[i][1].append(levenshtein(d[key][1], d[key + 1][1]))
+            i += 1
+        return dd
 
-    def syn_sim(self):
-        pass
+    def pos_sim_mean(self):
+        sim = self.simularity()
+        pos_min = []
+        for sent in sim:
+            pos_min.append(sim[sent][0])
+        return mean(pos_min)
+
+    def lemma_sim_mean(self):
+        sim = self.simularity()
+        lemma_min = []
+        for sent in sim:
+            lemma_min.append(sim[sent][1])
+        return mean(lemma_min)
+
+    def pos_sim_mean2(self):
+        sim = self.simularity2()
+        pos_min = []
+        for sent in sim:
+            try:
+                pos_min.append(sim[sent][0][0])
+            except KeyError:
+                break
+        return mean(pos_min)
+
+    def lemma_sim_mean2(self):
+        sim = self.simularity2()
+        lemma_min = []
+        for sent in sim:
+            try:
+                lemma_min.append(sim[sent][1][0])
+            except KeyError:
+                break
+        return mean(lemma_min)
