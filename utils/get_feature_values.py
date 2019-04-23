@@ -41,6 +41,8 @@ class GetFeatures:
         self.pos_tags = []
         self.finite_forms = []
         self.finite_deps = []
+        self.coords = []
+        self.preps = []
 
     def get_info(self, text):
         self.text = text
@@ -67,6 +69,8 @@ class GetFeatures:
         self.pos_tags = parser.pos_tags
         self.finite_forms = parser.finite_forms
         self.finite_deps = parser.finite_deps
+        self.coords = parser.coords
+        self.preps = parser.preps
 
     def density(self):
         """
@@ -495,3 +499,39 @@ class GetFeatures:
             num_tu += num_tu_one
 
         return num_cl, num_tu, num_compl_tu
+
+    def count_coord(self):
+        num_coord = 0
+        for sentence in self.coords:
+            print(sentence)
+            for coord in sentence:
+                first = coord[0]
+                second = coord[1]
+                if first == second:
+                    num_coord += 1
+        return num_coord
+
+    def count_poss_prep(self, include_poss=False):
+        num_poss = len([rel for rel in self.preps if rel in ['nmod:poss', 'nmod']])
+        num_prep = len([rel for rel in self.preps if rel in ['obl']])
+        if include_poss:
+            return num_poss, num_prep + num_poss
+        return num_poss, num_prep
+
+    def count_adj_noun(self):
+        pass
+
+    def count_part_noun(self):
+        pass
+
+    def count_noun_inf(self):
+        pass
+
+    def count_gerund_inf_subj(self):
+        pass
+
+    def count_vp(self):
+        pass
+
+    def syn_sim(self):
+        pass

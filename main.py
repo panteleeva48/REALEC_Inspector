@@ -2,7 +2,7 @@ import os
 from utils.get_feature_values import GetFeatures
 from config import UDPIPE_MODEL, BASE_DIR, chkr
 gf = GetFeatures(UDPIPE_MODEL)
-
+# PROPN ? как что считать
 
 def check_spelling(text):
     chkr.set_text(text)
@@ -22,10 +22,13 @@ def read_file(path):
 def main(text):
     text = check_spelling(text)
     gf.get_info(text)
-    num_cl, num_tu, num_compl_tu = gf.count_units()
+    print(text)
+    num_coord = gf.count_coord()
+    print(num_coord)
 
 
 if __name__ == '__main__':
-    PATH_TXT = os.path.join(BASE_DIR, 'data', 'test.txt')
+    # PATH_TXT = os.path.join(BASE_DIR, 'data', 'test.txt')
+    PATH_TXT = '/Users/ira/Downloads/REALEC_Inspector/data/coord.txt'
     text = read_file(PATH_TXT)
     main(text)
