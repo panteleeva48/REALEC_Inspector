@@ -3,59 +3,58 @@ import numpy as np
 
 
 def safe_divide(numerator, denominator):
-    if int(denominator) == 0:
-        index = 0
-    else:
+    try:
         index = numerator / denominator
-    return index
+    except ZeroDivisionError:
+        return 0
 
 
 def division(list1, list2):
-    if len(list2) == 0:
-        return 0
-    else:
+    try:
         return len(list1) / len(list2)
+    except ZeroDivisionError:
+        return 0
 
 
 def corrected_division(list1, list2):
-    if len(list2) == 0:
-        return 0
-    else:
+    try:
         return len(list1) / math.sqrt(2 * len(list2))
+    except ZeroDivisionError:
+        return 0
 
 
 def root_division(list1, list2):
-    if len(list2) == 0:
-        return 0
-    else:
+    try:
         return len(list1) / math.sqrt(len(list2))
+    except ZeroDivisionError:
+        return 0
 
 
 def squared_division(list1, list2):
-    if len(list2) == 0:
-        return 0
-    else:
+    try:
         return len(list1) ** 2 / len(list2)
+    except ZeroDivisionError:
+        return 0
 
 
 def log_division(list1, list2):
-    if len(list2) == 0:
-        return 0
-    else:
+    try:
         return math.log(len(list1)) / math.log(len(list2))
+    except ZeroDivisionError:
+        return 0
 
 
 def uber(list1, list2):
-    if len(list1) == 0 or len(list2) == 0:
-        return 0
-    else:
+    try:
         return math.log(len(list1)) ** 2 / math.log(len(set(list2)) / len(list1))
+    except ZeroDivisionError:
+        return 0
 
 
 def levenshtein(seq1, seq2):
     size_x = len(seq1) + 1
     size_y = len(seq2) + 1
-    matrix = np.zeros ((size_x, size_y))
+    matrix = np.zeros((size_x, size_y))
     for x in range(size_x):
         matrix[x, 0] = x
     for y in range(size_y):

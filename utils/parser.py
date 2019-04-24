@@ -69,9 +69,10 @@ class ParserUDpipe:
         self.pos_lemma = {}
 
         self.sentences = parse(self.conllu)
-        for x in range(1, len(self.sentences) + 1):
+        for x in range(len(self.sentences)):
             self.pos_lemma[x] = [[], []]
-        for i, sentence in enumerate(self.sentences, start=1):
+
+        for i, sentence in enumerate(self.sentences):
             finite_forms_one = []
             finite_deps_one = []
             coord_one = []

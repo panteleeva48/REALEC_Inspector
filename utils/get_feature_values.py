@@ -559,68 +559,25 @@ class GetFeatures:
                     num_inf_noun += 1
         return num_inf_noun
 
-    def simularity(self):
-        d = self.pos_lemma
-        dd = {}
-        for x in range(1, len(d) + 1):
-            dd[x] = [[], []]
-        i = 1
-        for key in d:
-            for key2 in d:
-                if i != key2:
-                    dd[i][0].append(levenshtein(d[key][0], d[key2][0]))
-                    dd[i][1].append(levenshtein(d[key][1], d[key2][1]))
-            i += 1
-        for every in dd:
-            dd[every][0] = mean(dd[every][0])
-            dd[every][1] = mean(dd[every][1])
-        return dd
+    def simularity_mean(self):
+        mean_pos_sim, mean_lemma_sim = [], []
+        for id_1, sentence_1 in enumerate(self.pos_lemma):
+            sum_dist_pos, sum_dist_lemma = [], []
+            for id_2, sentence_2 in enumerate(self.pos_lemma):
+                if id_1 != id_2 and id_1 < id_2:
+                    dist_pos = levenshtein(self.pos_lemma[id_1][0], self.pos_lemma[id_2][0])
+                    dist_lemma = levenshtein(self.pos_lemma[id_1][1], self.pos_lemma[id_2][1])
+                    sum_dist_pos.append(dist_pos)
+                    sum_dist_lemma.append(dist_lemma)
+            if sum_dist_pos:
+                mean_pos_sim.append(mean(sum_dist_pos))
+                mean_lemma_sim.append(mean(sum_dist_lemma))
+        return mean(mean_pos_sim), mean(mean_lemma_sim)
 
-    def simularity2(self):
-        d = self.pos_lemma
-        print(d)
-        dd = {}
-        for x in range(1, len(d) + 1):
-            dd[x] = [[], []]
-        i = 1
-        for key in d:
-            if i + 1 <= len(d):
-                dd[i][0].append(levenshtein(d[key][0], d[key + 1][0]))
-                dd[i][1].append(levenshtein(d[key][1], d[key + 1][1]))
-            i += 1
-        return dd
-
-    def pos_sim_mean(self):
-        sim = self.simularity()
-        pos_min = []
-        for sent in sim:
-            pos_min.append(sim[sent][0])
-        return mean(pos_min)
-
-    def lemma_sim_mean(self):
-        sim = self.simularity()
-        lemma_min = []
-        for sent in sim:
-            lemma_min.append(sim[sent][1])
-        return mean(lemma_min)
-
-    def pos_sim_mean2(self):
-        sim = self.simularity2()
-        pos_min = []
-        for sent in sim:
-            try:
-                print(sim[sent][0][0])
-                pos_min.append(sim[sent][0][0])
-            except KeyError:
-                break
-        return mean(pos_min)
-
-    def lemma_sim_mean2(self):
-        sim = self.simularity2()
-        lemma_min = []
-        for sent in sim:
-            try:
-                lemma_min.append(sim[sent][1][0])
-            except KeyError:
-                break
-        return mean(lemma_min)
+    def simularity_neibour(self):
+        mean_pos_sim_nei, mean_lemma_sim_nei = [], []
+        for i, sentence_1 in enumerate(self.pos_lemma):
+            if i + 1 < len(self.pos_lemma):
+                mean_pos_sim_nei.append(levenshtein(self.pos_lemma[i][0], self.pos_lemma[i + 1][0]))
+                mean_lemma_sim_nei.append(levenshtein(self.pos_lemma[i][1], self.pos_lemma[i + 1][1]))
+        return mean(mean_pos_sim_nei), mean(mean_lemma_sim_nei)
