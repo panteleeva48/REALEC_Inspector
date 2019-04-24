@@ -66,9 +66,11 @@ class ParserUDpipe:
         self.finite_deps = []
         self.coords = []
         self.preps = []
-        self.poss_lemma = {}
+        self.pos_lemma = {}
 
         self.sentences = parse(self.conllu)
+        for x in range(1, len(self.sentences) + 1):
+            self.pos_lemma[x] = [[], []]
         for i, sentence in enumerate(self.sentences, start=1):
             finite_forms_one = []
             finite_deps_one = []
@@ -81,8 +83,8 @@ class ParserUDpipe:
                 pos = token.get('upostag')
                 feats = token.get('feats')
                 head = token.get('head')
-                self.poss_lemma[i][0].append(pos)
-                self.poss_lemma[i][1].append(lemma)
+                self.pos_lemma[i][0].append(pos)
+                self.pos_lemma[i][1].append(lemma)
 
                 self.relations.append(relation)
                 self.lemmas.append(lemma)

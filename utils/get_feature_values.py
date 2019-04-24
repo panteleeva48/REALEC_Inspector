@@ -44,7 +44,7 @@ class GetFeatures:
         self.finite_deps = []
         self.coords = []
         self.preps = []
-        self.poss_lemma = {}
+        self.pos_lemma = {}
 
     def get_info(self, text):
         self.text = text
@@ -73,7 +73,7 @@ class GetFeatures:
         self.finite_deps = parser.finite_deps
         self.coords = parser.coords
         self.preps = parser.preps
-        self.poss_lemma = parser.pos_lemma
+        self.pos_lemma = parser.pos_lemma
 
     def density(self):
         """
@@ -560,7 +560,7 @@ class GetFeatures:
         return num_inf_noun
 
     def simularity(self):
-        d = self.pos_lemma()
+        d = self.pos_lemma
         dd = {}
         for x in range(1, len(d) + 1):
             dd[x] = [[], []]
@@ -577,7 +577,8 @@ class GetFeatures:
         return dd
 
     def simularity2(self):
-        d = self.pos_lemma()
+        d = self.pos_lemma
+        print(d)
         dd = {}
         for x in range(1, len(d) + 1):
             dd[x] = [[], []]
@@ -608,6 +609,7 @@ class GetFeatures:
         pos_min = []
         for sent in sim:
             try:
+                print(sim[sent][0][0])
                 pos_min.append(sim[sent][0][0])
             except KeyError:
                 break
