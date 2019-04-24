@@ -526,9 +526,10 @@ class GetFeatures:
             for token in sentence:
                 pos = token.get('upostag')
                 head = token.get('head')
-                pos_head = sentence[head - 1].get('upostag')
-                if pos == 'ADJ' and pos_head == 'NOUN':
-                    num_adj_noun += 1
+                if head:
+                    pos_head = sentence[head - 1].get('upostag')
+                    if pos == 'ADJ' and pos_head == 'NOUN':
+                        num_adj_noun += 1
         return num_adj_noun
 
     def count_part_noun(self):
@@ -540,9 +541,10 @@ class GetFeatures:
                     pos = {}
                 pos = pos.get('VerbForm')
                 head = token.get('head')
-                pos_head = sentence[head - 1].get('upostag')
-                if pos == 'Part' and pos_head == 'NOUN':
-                    num_part_noun += 1
+                if head:
+                    pos_head = sentence[head - 1].get('upostag')
+                    if pos == 'Part' and pos_head == 'NOUN':
+                        num_part_noun += 1
         return num_part_noun
 
     def count_noun_inf(self):
@@ -554,9 +556,10 @@ class GetFeatures:
                     pos = {}
                 pos = pos.get('VerbForm')
                 head = token.get('head')
-                pos_head = sentence[head - 1].get('upostag')
-                if pos == 'Inf' and pos_head == 'NOUN':
-                    num_inf_noun += 1
+                if head:
+                    pos_head = sentence[head - 1].get('upostag')
+                    if pos == 'Inf' and pos_head == 'NOUN':
+                        num_inf_noun += 1
         return num_inf_noun
 
     def simularity_mean(self):
@@ -572,7 +575,10 @@ class GetFeatures:
             if sum_dist_pos:
                 mean_pos_sim.append(mean(sum_dist_pos))
                 mean_lemma_sim.append(mean(sum_dist_lemma))
-        return mean(mean_pos_sim), mean(mean_lemma_sim)
+        try:
+            return mean(mean_pos_sim), mean(mean_lemma_sim)
+        except ValueError:
+            return 0, 0
 
     def simularity_neibour(self):
         mean_pos_sim_nei, mean_lemma_sim_nei = [], []
@@ -580,7 +586,10 @@ class GetFeatures:
             if i + 1 < len(self.pos_lemma):
                 mean_pos_sim_nei.append(levenshtein(self.pos_lemma[i][0], self.pos_lemma[i + 1][0]))
                 mean_lemma_sim_nei.append(levenshtein(self.pos_lemma[i][1], self.pos_lemma[i + 1][1]))
-        return mean(mean_pos_sim_nei), mean(mean_lemma_sim_nei)
+        try:
+            return mean(mean_pos_sim_nei), mean(mean_lemma_sim_nei)
+        except ValueError:
+            return 0, 0
 
     def shell_nouns(self, model):
         num_shell_nouns = 0
