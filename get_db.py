@@ -14,3 +14,4 @@ def connect(dbfile):
 c, conn = connect(PATH_DB)
 c.execute("SELECT TEXT, MARK, NAME FROM MAIN")
 result = c.fetchall()
+

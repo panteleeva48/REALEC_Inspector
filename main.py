@@ -114,4 +114,3 @@ if __name__ == '__main__':
 
     df = pd.DataFrame(data=data)
     df.to_csv(DATASET, index=False)
-

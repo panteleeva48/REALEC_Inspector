@@ -75,4 +75,3 @@ def levenshtein(seq1, seq2):
                     matrix[x, y-1] + 1
                 )
     return (matrix[size_x - 1, size_y - 1])
-
