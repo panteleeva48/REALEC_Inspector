@@ -142,3 +142,4 @@ class ParserUDpipe:
             self.coords.append(coord_one)
             self.finite_forms.append(finite_forms_one)
             self.finite_deps.append(finite_deps_one)
+
