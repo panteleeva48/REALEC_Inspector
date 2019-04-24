@@ -1,8 +1,18 @@
 import os
 from utils.get_feature_values import GetFeatures
-from config import UDPIPE_MODEL, BASE_DIR, chkr
+from config import UDPIPE_MODEL, BASE_DIR, chkr, BASE_DIR
+import pickle
+
+
+def tokenizer(text):
+    return text.split()
+
+
+DON_MODEL_PATH = os.path.join(BASE_DIR, 'models', 'shell.pickle')
+with open(DON_MODEL_PATH, 'rb') as mdl:
+    DON_MODEL = pickle.load(mdl)
+
 gf = GetFeatures(UDPIPE_MODEL)
-# PROPN ? как что считать
 
 
 def check_spelling(text):
@@ -53,15 +63,17 @@ def main(text):
     result['adjv'] = gf.AdjV()
     result['advv'] = gf.AdvV()
     result['modv'] = gf.ModV()
-    result['der_level3'], result['der_level4'], result['der_level5'], result['der_level6'] = gf.derivational_suffixation()
+    (result['der_level3'], result['der_level4'],
+     result['der_level5'], result['der_level6']) = gf.derivational_suffixation()
     result['mci'] = gf.MCI()
     result['freq_finite_forms'] = gf.freq_finite_forms()
     result['freq_aux'] = gf.freq_aux()
-    result['num_inf'], result['num_gerunds'], result['num_pres_sing'], result['num_pres_plur'], result['num_past_part'], result['num_past_simple'] = gf.num_verb_forms()
+    (result['num_inf'], result['num_gerunds'], result['num_pres_sing'],
+     result['num_pres_plur'], result['num_past_part'], result['num_past_simple']) = gf.num_verb_forms()
     result['num_linkings'] = gf.num_linkings().get('link_all')
     result['num_4grams'] = gf.num_4grams()
     result['num_func_ngrams'] = gf.num_func_ngrams().get('4grams_all')
-    result['shell_noun'] = None
+    result['num_shell_noun'] = gf.shell_nouns(DON_MODEL)
     return result
 
 

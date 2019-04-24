@@ -4,7 +4,7 @@ import re
 import numpy as np
 import copy
 from statistics import mean
-from config import FIVE_T_FREQ_COCA, FREQ_VERBS_COCA_FROM_FIVE_T, UWL, LINKINGS, FUNC_NGRAMS, SUFFIXES, NGRAMS
+from config import FIVE_T_FREQ_COCA, FREQ_VERBS_COCA_FROM_FIVE_T, UWL, LINKINGS, FUNC_NGRAMS, SUFFIXES, NGRAMS, DONS
 from utils.operations import (division, corrected_division, root_division,
                               squared_division, log_division, uber, levenshtein)
 
@@ -581,3 +581,27 @@ class GetFeatures:
                 mean_pos_sim_nei.append(levenshtein(self.pos_lemma[i][0], self.pos_lemma[i + 1][0]))
                 mean_lemma_sim_nei.append(levenshtein(self.pos_lemma[i][1], self.pos_lemma[i + 1][1]))
         return mean(mean_pos_sim_nei), mean(mean_lemma_sim_nei)
+
+    def shell_nouns(self, model):
+        num_shell_nouns = 0
+        for sentence in self.sentences:
+            left = ''
+            right = ''
+            find_left = True
+            found_DON = False
+            for i, token in enumerate(sentence):
+                lemma = token.get('lemma', '')
+                if lemma in DONS:
+                    find_left = False
+                    candidate = lemma
+                    found_DON = True
+                elif find_left:
+                    left += lemma + ' '
+                else:
+                    right += ' ' + lemma
+            if found_DON:
+                x = [[left, right, candidate]]
+                y_pred = model.predict(x)
+                if y_pred[0] == 1:
+                    num_shell_nouns += 1
+        return num_shell_nouns

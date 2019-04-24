@@ -1,6 +1,7 @@
 import os
 from utils.model import Model
 import json
+import pickle
 
 import enchant.checker as spellcheck
 chkr = spellcheck.SpellChecker("en_GB")
@@ -34,3 +35,12 @@ with open(PATH_SUFFIXES) as data_file:
 PATH_NGRAMS = os.path.join(BASE_DIR, 'data', 'lists', 'ngrams.txt')
 with open(PATH_NGRAMS) as data_file:
     NGRAMS = [x.split() for x in data_file.read().split('\n')]
+
+DONS = [
+    'thing', 'fact', 'point', 'argument', 'result', 'dispute',
+    'problem', 'factor', 'approach', 'view', 'feeling', 'process',
+    'theme', 'attempt', 'controversy', 'statement', 'task', 'issue',
+    'dream', 'matter', 'situation', 'need', 'reason', 'solution',
+    'possibility', 'change', 'debate', 'sense', 'method', 'theory',
+    'finding', 'question', 'idea', 'concept', 'opinion', 'ideas', 'things'
+]
