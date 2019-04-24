@@ -508,7 +508,6 @@
 ./data/exam/exam2017/DPe_20_1
 ./data/exam/exam2017/OBy_174_2
 ./data/exam/exam2017/NMya_64_2
-./data/exam/exam2017/EGe_147_1
 ./data/exam/exam2017/ABl_1_1
 ./data/exam/exam2017/NMya_19_2
 ./data/exam/exam2017/ABl_8_2
