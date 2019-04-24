@@ -2,6 +2,15 @@ import os
 from utils.get_feature_values import GetFeatures
 from config import UDPIPE_MODEL, BASE_DIR, chkr, BASE_DIR
 import pickle
+from get_db import result
+import pandas as pd
+import json
+
+
+DATASET = os.path.join(BASE_DIR, 'data', 'feature_result.csv')
+JSON_FILE = os.path.join(BASE_DIR, 'data', 'files_with_json.txt')
+RESULT_FILE = os.path.join(BASE_DIR, 'data', 'result.json')
+gf = GetFeatures(UDPIPE_MODEL)
 
 
 def tokenizer(text):
@@ -12,14 +21,15 @@ DON_MODEL_PATH = os.path.join(BASE_DIR, 'models', 'shell.pickle')
 with open(DON_MODEL_PATH, 'rb') as mdl:
     DON_MODEL = pickle.load(mdl)
 
-gf = GetFeatures(UDPIPE_MODEL)
-
 
 def check_spelling(text):
     chkr.set_text(text)
+
     for err in chkr:
-        sug = err.suggest()[0]
-        err.replace(sug)
+        suggestions = err.suggest()
+        if suggestions:
+            suggest = suggestions[0]
+            err.replace(suggest)
     text = chkr.get_text()
     return text
 
@@ -78,7 +88,29 @@ def main(text):
 
 
 if __name__ == '__main__':
-    PATH_TXT = os.path.join(BASE_DIR, 'data', 'test.txt')
-    text = read_file(PATH_TXT)
-    result = main(text)
-    print(result)
+    with open(JSON_FILE, 'r') as rf:
+        clean_essays = rf.read().split('\n')
+
+    with open(RESULT_FILE) as data_file:
+        data = json.load(data_file)
+    data['name'] = []
+    data['text'] = []
+    data['target'] = []
+
+    for i, essay in enumerate(result):
+        if i % 10 == 0:
+            print(i + 1, 'files are parsed.')
+        text = essay[0]
+        mark = essay[1]
+        name = essay[2]
+        print(name)
+        if name in clean_essays:
+            result = main(text)
+            for key in result:
+                data[key].append(result[key])
+            data['name'].append(name)
+            data['text'].append(text)
+            data['target'].append(mark)
+
+    df = pd.DataFrame(data=data)
+    df.to_csv(DATASET, index=False)
