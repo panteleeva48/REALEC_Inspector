@@ -97,7 +97,7 @@ if __name__ == '__main__':
     data['text'] = []
     data['target'] = []
 
-    for i, essay in enumerate(result[511:]):
+    for i, essay in enumerate(result):
         if i % 10 == 0:
             print(i + 1, 'files are parsed.')
         text = essay[0]
