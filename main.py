@@ -103,7 +103,6 @@ if __name__ == '__main__':
         text = essay[0]
         mark = essay[1]
         name = essay[2]
-        print(name)
         if name in clean_essays:
             result = main(text)
             for key in result:
