@@ -24,7 +24,6 @@ with open(DON_MODEL_PATH, 'rb') as mdl:
 
 def check_spelling(text):
     chkr.set_text(text)
-
     for err in chkr:
         suggestions = err.suggest()
         if suggestions:
@@ -84,10 +83,23 @@ def main(text):
     result['num_4grams'] = gf.num_4grams()
     result['num_func_ngrams'] = gf.num_func_ngrams().get('4grams_all')
     result['num_shell_noun'] = gf.shell_nouns(DON_MODEL)
+    result['num_misspelled_tokens'] = gf.number_of_misspelled()
+    result['punct_mistakes_pp'] = gf.count_punct_mistakes_participle_phrase()
+    result['punct_mistakes_because'] = gf.count_punct_mistakes_before(before='because')
+    result['punct_mistakes_but'] = gf.count_punct_mistakes_before(before='but')
+    result['punct_mistakes_compare'] = gf.count_punct_mistakes_before(before='than') \
+                                       + gf.count_punct_mistakes_before(before='like')
+    result['million_mistake'] = gf.count_million_mistakes()
+    result['side_mistake'] = gf.if_side_mistake()
     return result
 
 
 if __name__ == '__main__':
+    # text = read_file('/Users/ira/Downloads/REALEC_Inspector/data/test.txt')
+    # result = main(text)
+    # print(result['side_mistake'])
+    # for feature in result:
+    #     print(feature, result[feature])
     with open(JSON_FILE, 'r') as rf:
         clean_essays = rf.read().split('\n')
 
@@ -95,7 +107,8 @@ if __name__ == '__main__':
         data = json.load(data_file)
     data['name'] = []
     data['text'] = []
-    data['target'] = []
+    data['class'] = []
+    data['type'] = []
 
     for i, essay in enumerate(result):
         if i % 10 == 0:
@@ -103,13 +116,15 @@ if __name__ == '__main__':
         text = essay[0]
         mark = essay[1]
         name = essay[2]
+        type = essay[3]
         if name in clean_essays:
             result = main(text)
             for key in result:
                 data[key].append(result[key])
             data['name'].append(name)
             data['text'].append(text)
-            data['target'].append(mark)
+            data['class'].append(mark)
+            data['type'].append(type)
 
     df = pd.DataFrame(data=data)
     df.to_csv(DATASET, index=False)

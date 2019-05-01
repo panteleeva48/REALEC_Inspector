@@ -63,5 +63,12 @@
   "num_linkings": [],
   "num_4grams": [],
   "num_func_ngrams": [],
-  "num_shell_noun": []
+  "num_shell_noun": [],
+  "num_misspelled_tokens": [],
+  "punct_mistakes_pp": [],
+  "punct_mistakes_because": [],
+  "punct_mistakes_but": [],
+  "punct_mistakes_compare": [],
+  "million_mistake": [],
+  "side_mistake": []
 }

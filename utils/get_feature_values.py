@@ -3,16 +3,18 @@ import random
 import re
 import numpy as np
 import copy
+from utils.parser import ParserUDpipe
+from spellchecker import SpellChecker
+from nltk.stem.porter import PorterStemmer
 from statistics import mean
-from config import FIVE_T_FREQ_COCA, FREQ_VERBS_COCA_FROM_FIVE_T, UWL, LINKINGS, FUNC_NGRAMS, SUFFIXES, NGRAMS, DONS
+from config import (
+    FIVE_T_FREQ_COCA, FREQ_VERBS_COCA_FROM_FIVE_T, UWL, LINKINGS, FUNC_NGRAMS, SUFFIXES, NGRAMS, DONS, NUM_LIST)
 from utils.operations import (division, corrected_division, root_division,
                               squared_division, log_division, uber, levenshtein)
-
-from nltk.stem.porter import PorterStemmer
 porter_stemmer = PorterStemmer()
-
-from utils.parser import ParserUDpipe
 parser = ParserUDpipe()
+spell = SpellChecker()
+side_regex = re.compile('(on|from|at|in) (the)* (one|other|another) side')
 
 
 class GetFeatures:
@@ -615,3 +617,66 @@ class GetFeatures:
                     num_shell_nouns += 1
         return num_shell_nouns
 
+    def number_of_misspelled(self):
+        misspelled = spell.unknown(self.tokens)
+        return len(misspelled)
+
+    def count_punct_mistakes_participle_phrase(self):
+        # todo: complex sentences like "Cooper enjoyed dinner at Audrey's house, agreeing to a large slice of cherry pie
+        #  even though he was full to the point of bursting."
+        num_mistakes = 0
+        for sentence in self.sentences:
+            heads = []
+            for token in sentence:
+                relation = token.get('deprel')
+                if relation == 'punct':
+                    head = token.get('head')
+                    heads.append(head)
+            previous_lemma = None
+            for i, token in enumerate(sentence, start=1):
+                feats = token.get('feats')
+                relation = token.get('deprel')
+                head = token.get('head')
+                lemma = token.get('lemma')
+                if not feats:
+                    feats = {}
+                if feats.get('VerbForm', '') in ['Ger', 'Part'] and relation == 'advcl':
+                    if head > i:
+                        if i not in heads:
+                            num_mistakes += 1
+                    else:
+                        if i in heads or previous_lemma == 'punct':
+                            num_mistakes += 1
+                previous_lemma = lemma
+        return num_mistakes
+
+    def count_punct_mistakes_before(self, before):
+        num_mistakes = 0
+        if before in self.text:
+            for sentence in self.sentences:
+                previous_lemma = None
+                for i, token in enumerate(sentence, start=1):
+                    lemma = token.get('lemma')
+                    if lemma == before and previous_lemma == ',':
+                        num_mistakes += 1
+                    previous_lemma = lemma
+        return num_mistakes
+
+    def count_million_mistakes(self):
+        num_mistakes = 0
+        if any(word in self.text for word in NUM_LIST):
+            for sentence in self.sentences:
+                previous_pos = None
+                for i, token in enumerate(sentence, start=1):
+                    form = token.get('form')
+                    pos = token.get('upostag')
+                    if form in NUM_LIST and previous_pos == 'NUM':
+                        num_mistakes += 1
+                    previous_pos = pos
+        return num_mistakes
+
+    def if_side_mistake(self):
+        preprocessed = re.sub(' +', ' ', self.text).lower()
+        if side_regex.match(preprocessed):
+            return 1
+        return 0

@@ -1,10 +1,10 @@
 import os
 from utils.model import Model
 import json
-import pickle
 
 import enchant.checker as spellcheck
 chkr = spellcheck.SpellChecker("en_GB")
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -45,4 +45,6 @@ DONS = [
     'finding', 'question', 'idea', 'concept', 'opinion', 'ideas', 'things'
 ]
 
-
+NUM_LIST = ['millions', 'hundreds',
+            'thousands', 'milliards',
+            'billions', 'trillions']
