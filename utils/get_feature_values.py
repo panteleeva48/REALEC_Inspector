@@ -94,7 +94,7 @@ class GetFeatures:
         """
         number of sophisticated verb lemmas/number of verb tokens
         """
-        soph_verbs = set([i for i in self.verb_lemmas if i not in FREQ_VERBS_COCA_FROM_FIVE_T])
+        soph_verbs = [i for i in self.verb_lemmas if i not in FREQ_VERBS_COCA_FROM_FIVE_T]
         VSI = division(soph_verbs, self.verb_lemmas)
         VSII = corrected_division(soph_verbs, self.verb_lemmas)
         VSIII = squared_division(soph_verbs, self.verb_lemmas)

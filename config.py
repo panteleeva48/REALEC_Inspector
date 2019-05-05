@@ -18,7 +18,7 @@ FIVE_T_FREQ_COCA = lists['5000frequentCOCA']
 FREQ_VERBS_COCA_FROM_FIVE_T = lists['frequentverbsCOCAfrom5000']
 UWL = lists['UWL']
 
-OPEN_CLASS = ['NOUN', 'VERB', 'ADV', 'ADJ']
+OPEN_CLASS = ['NOUN', 'VERB', 'ADV', 'ADJ', 'PROPN']
 
 PATH_LINKINGS = os.path.join(BASE_DIR, 'data', 'lists', 'linkings.json')
 with open(PATH_LINKINGS) as data_file:
