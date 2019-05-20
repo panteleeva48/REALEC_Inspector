@@ -16,7 +16,7 @@ def tokenizer(text):
 
 SEED = 23
 gf = GetFeatures(UDPIPE_MODEL)
-tfidf = TfidfVectorizer(lowercase=True, tokenizer=tokenizer)
+tfidf = TfidfVectorizer(lowercase=True)
 ohe = CountVectorizer()
 DON_DATASET_PATH = os.path.join(BASE_DIR, 'data', 'shell_dataset.csv')
 DON_MODEL_PATH = os.path.join(BASE_DIR, 'models', 'shell.pickle')
